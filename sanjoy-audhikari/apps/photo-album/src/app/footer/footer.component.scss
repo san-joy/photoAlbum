@@ -1,0 +1,11 @@
+mat-toolbar {
+    position: fixed;
+    bottom: 0;
+    background-color: rgb(225, 225, 225);
+    mat-toolbar-row {
+        p {
+            font-size: 12px;
+            font-weight: 100;
+        }
+    }
+}
