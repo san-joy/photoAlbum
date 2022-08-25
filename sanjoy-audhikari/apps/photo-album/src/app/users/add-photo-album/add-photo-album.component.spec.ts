@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserDetailsComponent } from './user-details.component';
+import { AddPhotoAlbumComponent } from './add-photo-album.component';
 
-describe('UserDetailsComponent', () => {
-  let component: UserDetailsComponent;
-  let fixture: ComponentFixture<UserDetailsComponent>;
+describe('AddPhotoAlbumComponent', () => {
+  let component: AddPhotoAlbumComponent;
+  let fixture: ComponentFixture<AddPhotoAlbumComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UserDetailsComponent],
+      declarations: [AddPhotoAlbumComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UserDetailsComponent);
+    fixture = TestBed.createComponent(AddPhotoAlbumComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

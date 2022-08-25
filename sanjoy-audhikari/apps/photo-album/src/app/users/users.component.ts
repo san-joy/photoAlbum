@@ -169,8 +169,8 @@ export class UsersComponent implements AfterViewInit {
     }
   }
 
-  routeToUserDetails(user: any) {
+  routeToUserPhotoAlbum(user: any) {
     const userId = user ? user.id : null;
-    this.router.navigate(['/userDetails', userId ]);
+    this.router.navigate(['/userPhotoAlbum', userId ]);
   }
 }

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { UserDetailsComponent } from './users/user-details/user-details.component';
+import { UserPhotoAlbumComponent } from './users/user-photo-album/user-photo-album.component';
 
 const routes: Routes = [
   {
@@ -10,8 +10,8 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'userDetails/:id',
-    component: UserDetailsComponent,
+    path: 'userPhotoAlbum/:id',
+    component: UserPhotoAlbumComponent,
   },
   {
     path: '**',
