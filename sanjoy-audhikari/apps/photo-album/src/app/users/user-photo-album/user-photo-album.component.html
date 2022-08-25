@@ -1,0 +1,16 @@
+<div class="photo-album-container">
+    <div class="add-album">
+        <h1>Add your album here</h1>
+        <button mat-mini-fab color="primary" aria-label="Add photo album button" (click)="addPhotoAlbum()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <mat-card *ngFor="let album of userAlbumPhotos">
+        <mat-card-title>{{album.albumTitle | titlecase}}</mat-card-title>
+        <div class="photo-gallery">
+            <div *ngFor="let photo of album.albumPhotos">
+                <img [src]="photo.thumbnailUrl" [alt]="photo.title" [matTooltip]="photo.title" />
+            </div>
+        </div>
+    </mat-card>
+</div>

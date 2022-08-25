@@ -1,0 +1,9 @@
+<h1>Create your photo album</h1>
+<form [formGroup]="photoAlbumDetails">
+    <mat-form-field appearance="outline">
+        <mat-label>Photo album title</mat-label>
+        <input matInput formControlName="photoAlbumTitle" type="text" required>
+        <mat-error *ngIf="photoAlbumDetails.get('photoAlbumTitle')!.invalid">This field cannot be empty.</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" [disabled]="photoAlbumDetails.get('photoAlbumTitle')!.invalid" (click)="onSubmit()">Submit</button>
+</form>

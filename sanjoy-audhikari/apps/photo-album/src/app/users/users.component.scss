@@ -1,0 +1,14 @@
+mat-card {
+    table {
+        width: 100%;
+
+        th.mat-sort-header-sorted {
+            color: black;
+        }
+
+        .mat-row:hover {
+            background-color: rgb(235, 235, 235);
+            cursor: pointer;
+        }
+    }
+}
