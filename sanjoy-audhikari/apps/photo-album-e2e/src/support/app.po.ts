@@ -1,1 +1,2 @@
-export const getGreeting = () => cy.get('h1');
+export const getListOfUsersTitle = () => cy.get('mat-card-title');
+export const getSubTitle = () => cy.get('mat-card-subtitle');
