@@ -1,13 +1,13 @@
-import { getGreeting } from '../support/app.po';
+import { getListOfUsersTitle, getSubTitle } from '../support/app.po';
 
 describe('photo-album', () => {
   beforeEach(() => cy.visit('/'));
 
-  it('should display welcome message', () => {
-    // Custom command example, see `../support/commands.ts` file
-    cy.login('my-email@something.com', 'myPassword');
+  it('should display title "List of users"', () => {
+    getListOfUsersTitle().contains("List of users");
+  });
 
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome photo-album');
+  it('should display subtitle "Click each row to check user\'s photo album"', () => {
+    getSubTitle().contains("Click each row to check user's photo album");
   });
 });
