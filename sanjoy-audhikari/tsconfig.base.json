@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@sanjoy-audhikari/api-interfaces": ["libs/api-interfaces/src/index.ts"],
-      "@sanjoy-audhikari/material": ["libs/material/src/index.ts"]
+      "@sanjoy-audhikari/material": ["libs/material/src/index.ts"],
+      "@sanjoy-audhikari/users-photo-album": ["libs/users-photo-album/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

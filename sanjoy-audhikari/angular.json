@@ -6,6 +6,7 @@
     "api-interfaces": "libs/api-interfaces",
     "material": "libs/material",
     "photo-album": "apps/photo-album",
-    "photo-album-e2e": "apps/photo-album-e2e"
+    "photo-album-e2e": "apps/photo-album-e2e",
+    "users-photo-album": "libs/users-photo-album"
   }
 }
