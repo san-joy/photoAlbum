@@ -1,82 +1,82 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AddPhotoAlbumComponent } from '../add-photo-album/add-photo-album.component';
-
-export interface Albums {
-  userId: number;
-  id: number;
-  title: string;
-}
-
-export interface Photos {
-  albumId: number;
-  id: number;
-  title: string;
-  url: string;
-  thumbnailUrl: string;
-
-}
+import { UsersPhotoAlbumService } from '../users-photo-album.service';
 
 @Component({
   selector: 'sanjoy-audhikari-user-photo-album',
   templateUrl: './user-photo-album.component.html',
   styleUrls: ['./user-photo-album.component.scss'],
 })
-export class UserPhotoAlbumComponent implements OnInit {
+export class UserPhotoAlbumComponent implements OnInit, OnDestroy {
   userId: any;
-  userAlbums: Albums[] = [];
-  photosForAlbum: Photos[] = [];
-  userAlbumPhotos:any;
+  userAlbumPhotos: any;
+  usersPhotoAlbumSubscription!: Subscription;
+  dialogSubscription!: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    public dialog: MatDialog
-    ) {
-    }
-
-  albums = [
-  {userId:1, id:1, title:"quidem molestiae enim"},
-  {userId:1, id:2, title:"nesciunt quia et doloremque"},
-  {userId:1, id:3, title:"nesciunt quia et doloremque"},
-  {userId:3, id:24, title:"dolores ut et facere placeat"}]
-
-  photos = [
-    {albumId: 1, id: 1, title: "accusamus beatae ad facilis cum similique qui sunt", url: "https://via.placeholder.com/600/92c952", thumbnailUrl: "https://via.placeholder.com/150/92c952"},
-    {albumId: 1, id: 2, title: "reprehenderit est deserunt velit ipsam", url: "https://via.placeholder.com/600/771796", thumbnailUrl: "https://via.placeholder.com/150/771796"},
-    {albumId: 1, id: 1, title: "accusamus beatae ad facilis cum similique qui sunt", url: "https://via.placeholder.com/600/92c952", thumbnailUrl: "https://via.placeholder.com/150/92c952"},
-    {albumId: 1, id: 2, title: "reprehenderit est deserunt velit ipsam", url: "https://via.placeholder.com/600/771796", thumbnailUrl: "https://via.placeholder.com/150/771796"},
-    {albumId: 1, id: 1, title: "accusamus beatae ad facilis cum similique qui sunt", url: "https://via.placeholder.com/600/92c952", thumbnailUrl: "https://via.placeholder.com/150/92c952"},
-    {albumId: 1, id: 2, title: "reprehenderit est deserunt velit ipsam", url: "https://via.placeholder.com/600/771796", thumbnailUrl: "https://via.placeholder.com/150/771796"},
-    {albumId: 1, id: 1, title: "accusamus beatae ad facilis cum similique qui sunt", url: "https://via.placeholder.com/600/92c952", thumbnailUrl: "https://via.placeholder.com/150/92c952"},
-    {albumId: 1, id: 2, title: "reprehenderit est deserunt velit ipsam", url: "https://via.placeholder.com/600/771796", thumbnailUrl: "https://via.placeholder.com/150/771796"},
-    {albumId: 1, id: 1, title: "accusamus beatae ad facilis cum similique qui sunt", url: "https://via.placeholder.com/600/92c952", thumbnailUrl: "https://via.placeholder.com/150/92c952"},
-    {albumId: 1, id: 2, title: "reprehenderit est deserunt velit ipsam", url: "https://via.placeholder.com/600/771796", thumbnailUrl: "https://via.placeholder.com/150/771796"},
-    {albumId: 1, id: 1, title: "accusamus beatae ad facilis cum similique qui sunt", url: "https://via.placeholder.com/600/92c952", thumbnailUrl: "https://via.placeholder.com/150/92c952"},
-    {albumId: 1, id: 2, title: "reprehenderit est deserunt velit ipsam", url: "https://via.placeholder.com/600/771796", thumbnailUrl: "https://via.placeholder.com/150/771796"},
-    {albumId: 1, id: 1, title: "accusamus beatae ad facilis cum similique qui sunt", url: "https://via.placeholder.com/600/92c952", thumbnailUrl: "https://via.placeholder.com/150/92c952"},
-    {albumId: 1, id: 2, title: "reprehenderit est deserunt velit ipsam", url: "https://via.placeholder.com/600/771796", thumbnailUrl: "https://via.placeholder.com/150/771796"},
-    {albumId: 2, id: 3, title: "officia porro iure quia iusto qui ipsa ut modi",url: "https://via.placeholder.com/600/24f355", thumbnailUrl: "https://via.placeholder.com/150/24f355"}]
-
+    public dialog: MatDialog,
+    public usersPhotoAlbumService: UsersPhotoAlbumService,
+    private snackBar: MatSnackBar
+  ) {
+  }
   ngOnInit(): void {
     this.userId = this.activatedRoute.snapshot.paramMap.get('id');
-    const userAlbums = this.albums.filter((album) => { return album.userId == this.userId });
-    this.userAlbumPhotos = new Map(userAlbums.map(i => [i.id, {albumTitle: i.title, albumPhotos : []}]));
-    for(let albumId of this.userAlbumPhotos.keys()){
-      this.userAlbumPhotos.get(albumId).albumPhotos.push(...this.photos.filter(photo => {return albumId == photo.albumId}));
-    }
-    this.userAlbumPhotos = Array.from(this.userAlbumPhotos.values());
+    this.usersPhotoAlbumSubscription = this.usersPhotoAlbumService.getUserAlbums(this.userId)
+      .subscribe({
+        next: (data) => {
+          this.userAlbumPhotos = data;
+        },
+        error: () => {
+          this.snackBar.open("Error retrieving data!", "",
+            {
+              duration: 2000,
+              panelClass: ['mat-toolbar', 'mat-warn']
+            })
+        }
+      })
+
   }
 
-  addPhotoAlbum(){
+  addPhotoAlbum() {
     const dialogRef = this.dialog.open(AddPhotoAlbumComponent, {
       width: "350px",
       data: { userId: this.userId }
     })
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogSubscription = dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.userAlbumPhotos.push({albumTitle: result.title})
+        this.userAlbumPhotos.push({ title: result.title })
+        this.usersPhotoAlbumSubscription = this.usersPhotoAlbumService.createPhotoAlbum({ title: result.title, userId: parseInt(result.userId) })
+          .subscribe({
+            next: () => {
+              this.snackBar.open("New album added successfully!", "",
+                {
+                  duration: 2000,
+                  panelClass: ['mat-toolbar', 'mat-primary']
+                })
+            },
+            error: () => {
+              this.snackBar.open("Error with adding album!", "",
+                {
+                  duration: 2000,
+                  panelClass: ['mat-toolbar', 'mat-warn']
+                })
+            }
+          })
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    if (this.usersPhotoAlbumSubscription) {
+      this.usersPhotoAlbumSubscription.unsubscribe();
+    }
+    if (this.dialogSubscription) {
+      this.dialogSubscription.unsubscribe();
+    }
   }
 }

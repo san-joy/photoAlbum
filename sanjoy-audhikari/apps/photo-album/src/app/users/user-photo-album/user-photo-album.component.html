@@ -6,9 +6,9 @@
         </button>
     </div>
     <mat-card *ngFor="let album of userAlbumPhotos">
-        <mat-card-title>{{album.albumTitle | titlecase}}</mat-card-title>
+        <mat-card-title>{{album.title | titlecase}}</mat-card-title>
         <div class="photo-gallery">
-            <div *ngFor="let photo of album.albumPhotos">
+            <div *ngFor="let photo of album.photos">
                 <img [src]="photo.thumbnailUrl" [alt]="photo.title" [matTooltip]="photo.title" />
             </div>
         </div>
